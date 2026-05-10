@@ -8,7 +8,7 @@ print("bd conectada ✅")
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS productos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
+        nombre TEXT NOT NULL UNIQUE,
         cantidad INTEGER NOT NULL,
         precio REAL NOT NULL
     )
@@ -16,23 +16,41 @@ cursor.execute("""
 conexion.commit()
 print("Tabla creada ✅")
 
-# Insertar solo si la tabla está vacía
-cursor.execute("SELECT COUNT(*) FROM productos")
-total = cursor.fetchone()[0]
+def ver_productos():
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+    print("\n--- PRODUCTOS EN INVENTARIO ---")
+    for producto in productos:
+     print(f"ID: {producto[0]} | {producto[1]} | Cantidad: {producto[2]} | Precio: ${producto[3]:,.0f}")
 
-if total == 0:
-    cursor.execute("INSERT INTO productos (nombre, cantidad, precio) VALUES ('Laptop', 10, 2500000)")
-    cursor.execute("INSERT INTO productos (nombre, cantidad, precio) VALUES ('Mouse', 50, 45000)")
-    cursor.execute("INSERT INTO productos (nombre, cantidad, precio) VALUES ('Teclado', 30, 120000)")
-    conexion.commit()
-    print("Productos insertados ✅")
-else:
-    print("Productos ya existen, no se insertan de nuevo ✅")
+def agregar_producto():
+   nombre = input("Nombre del producto:")
+   cantidad = int(input("cantidad:"))
+   precio = float(input("precio:"))
+   try:
+      cursor.execute("INSERT INTO productos (nombre, cantidad, precio) VALUES (?,?,?)",(nombre, cantidad, precio))
+         
+      conexion.commit()
+      print(f"'{nombre}' agregado correctamente")
+   except:
+      print(f" ya existe un producto llamado {nombre}")
 
-# Consultar y mostrar todos los productos
-cursor.execute("SELECT * FROM productos")
-productos = cursor.fetchall()
 
-print("\n--- PRODUCTOS EN INVENTARIO ---")
-for producto in productos:
-    print(f"ID: {producto[0]} | {producto[1]} | Cantidad: {producto[2]} | Precio: ${producto[3]:,.0f}")
+salir = False
+while not salir:
+    print("\n--- MENÚ ---")
+    print("1. Ver productos")
+    print("2. Agregar producto")
+    print("3. Salir")
+    opcion = input("Elige una opción: ")
+
+    if opcion == "1":
+       ver_productos()
+    elif opcion == "2":
+       agregar_producto()
+    elif opcion == "3":
+       print("hasta luego")
+       conexion.close()
+       salir = True
+    else:
+       print("opcion no valida, intentelo de nuevo")

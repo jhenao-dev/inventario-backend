@@ -16,7 +16,7 @@ git clone https://github.com/jhenao-dev/inventario-backend.git
 cd inventario-backend
 
 3. Ejecuta el programa:
-python3 inventario.py
+python3 inventario.pygit add
 
 ## 📦 Funcionalidades
 - Conexión a base de datos SQLite
