@@ -35,6 +35,17 @@ def agregar_producto():
    except:
       print(f" ya existe un producto llamado {nombre}")
 
+def eliminar_producto():
+   ver_productos()
+   id_eliminar = int(input("\nIngresa el ID del producto a eliminar: "))
+   cursor.execute("DELETE FROM productos WHERE id = ?", (id_eliminar,))
+   conexion.commit()
+   if cursor.rowcount > 0 :
+      print("producto eliminado correctamente")
+   else:
+      print("no se encontró un producto con ese id")
+
+
 
 salir = False
 while not salir:
@@ -52,5 +63,8 @@ while not salir:
        print("hasta luego")
        conexion.close()
        salir = True
+    elif opcion == "4":
+       eliminar_producto()
+
     else:
        print("opcion no valida, intentelo de nuevo")
