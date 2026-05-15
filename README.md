@@ -23,6 +23,8 @@ python3 inventario.pygit add
 - Creación automática de tabla de productos
 - Inserción de productos sin duplicados
 - Consulta y visualización de inventario
+- Eliminacion de producto por ID
+- Busqueda de producto por nombre
 
 ## 👨‍💻 Autor
 Juan Henao — [github.com/jhenao-dev](https://github.com/jhenao-dev)
