@@ -45,7 +45,18 @@ def eliminar_producto():
    else:
       print("no se encontró un producto con ese id")
 
+def buscar_producto_por_nombre():
+   nombre_producto= input("ingrese el nombre del producto a buscar")
 
+   cursor.execute('SELECT * FROM productos WHERE nombre LIKE ? ', (f"%{nombre_producto}%",))
+   productos = cursor.fetchall()
+   if len(productos) > 0:
+      print("\n--- PRODUCTOS EN INVENTARIO ---")
+      for producto in productos:
+       print(f"ID: {producto[0]} | {producto[1]} | Cantidad: {producto[2]} | Precio: ${producto[3]:,.0f}")
+   else:
+       print("el producto a buscar no existe")
+  
 
 salir = False
 while not salir:
@@ -53,6 +64,8 @@ while not salir:
     print("1. Ver productos")
     print("2. Agregar producto")
     print("3. Salir")
+    print("4. borrar producto por ID")
+    print("5, buscar producto por nombre")
     opcion = input("Elige una opción: ")
 
     if opcion == "1":
@@ -65,6 +78,8 @@ while not salir:
        salir = True
     elif opcion == "4":
        eliminar_producto()
-
+    elif opcion == "5":
+       buscar_producto_por_nombre()
     else:
        print("opcion no valida, intentelo de nuevo")
+
